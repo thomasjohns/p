@@ -1,0 +1,35 @@
+name: Code style check, spell check, type check, and tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  tox_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install hatch
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install hatch
+      - name: Style check
+        run: hatch run style:check
+      - name: Spell check
+        run: hatch run spell:check
+      - name: Types check
+        run: hatch run types:check
+      - name: Tests check
+        run: hatch run tests:check

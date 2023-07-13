@@ -1,0 +1,19 @@
+repos:
+  - repo: local
+    hooks:
+      - id: check-style
+        name: check-style
+        entry: hatch run style:check
+        language: python
+      - id: check-spell
+        name: check-spell
+        entry: hatch run spell:check
+        language: python
+      - id: check-types
+        name: check-types
+        entry: hatch run types:check
+        language: python
+      - id: check-tests
+        name: check-tests
+        entry: hatch run tests:check
+        language: python

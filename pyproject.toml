@@ -1,0 +1,142 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "p"
+dynamic = ["version"]
+description = "Configure an ssh proxy to run command line commands over with a `p` command prefix."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Thomas Johnson", email = "tej5@uw.edu"},
+]
+maintainers = [
+    {name = "Thomas Johnson", email = "tej5@uw.edu"},
+]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development",
+    "Topic :: Internet :: Proxy Servers",
+]
+
+[project.urls]
+homepage = "https://github.com/thomasjohns/p"
+
+[project.scripts]
+p = "p:main"
+
+[tool.hatch.version]
+path = "p.py"
+
+[tool.hatch.envs.style]
+dependencies = [
+    "reorder-python-imports",
+    "black",
+    "ruff",
+]
+
+[tool.hatch.envs.style.scripts]
+format = [
+    "reorder-python-imports p.py tests/*.py",
+    "black p.py tests",
+]
+check = [
+    "black --check --diff p.py tests",
+    "ruff check p.py tests/*.py",
+]
+
+[tool.hatch.envs.spell]
+dependencies = ["codespell"]
+
+[tool.hatch.envs.spell.scripts]
+check = ["codespell p.py tests/*.py"]
+
+[tool.hatch.envs.types]
+dependencies = [
+    "mypy",
+    "pyright",
+]
+
+[tool.hatch.envs.types.scripts]
+check = [
+    "mypy p.py",
+    "pyright p.py",
+]
+
+[tool.hatch.envs.tests]
+dependencies = ["pytest"]
+
+[tool.hatch.envs.tests.scripts]
+check = ["pytest"]
+
+[tool.black]
+line-length = 99
+skip-string-normalization = true
+
+[tool.ruff]
+line-length = 99
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "YTT",   # flake8-2020
+    "S",     # flake8-bandit
+    "FBT",   # flake8-boolean-trap
+    "B",     # flake8-bugbear
+    "A",     # flake8-builtins
+    "COM",   # flake8-commas
+    "C4",    # flake8-comprehensions
+    "DTZ",   # flake8-datetimez
+    "T10",   # flake8-debugger
+    "EM",    # flake8-errmsg
+    "FIX",   # flake8-fixme
+    "ISC",   # flake8-implicit-str-concat
+    "ICN",   # flake8-import-conventions
+    "PIE",   # flake8-pie
+    "PT",    # flake8-pytest-style
+    "RSE",   # flake8-raise
+    "SIM",   # flake8-simplify
+    "TID",   # flake8-tidy-imports
+    "Q",     # flake8-quotes
+    "ARG",   # flake8-unused-arguments
+    "N",     # pep8-naming
+    "PGH",   # pygrep-hooks
+    "RUF",   # Ruff-specific rules
+    "UP",    # pyupgrade
+    "TRY",   # tryceratops
+    "FLY",   # flynt
+    "PL",    # pylint
+]
+ignore = [
+    "S101",  # assert
+]
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"
+docstring-quotes = "single"
+
+[tool.ruff.isort]
+force-single-line = true
+order-by-type = false
+lines-after-imports = 2
+
+[tool.mypy]
+strict = true
+
+[tool.pyright]
+typeCheckingMode = "strict"
+reportCallInDefaultInitializer = "error"
+reportImplicitStringConcatenation = "error"
+reportPropertyTypeMismatch = "error"
+reportUninitializedInstanceVariable = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportUnusedCallResult = "error"
+reportUnusedImport = "error"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
